@@ -58,6 +58,8 @@ export async function getInitialState(): Promise<{
   };
 }
 
+// 白名单 不需要登陆的路径
+const whitelist = ["/user/register", loginPath]
 // ProLayout 支持的api https://procomponents.ant.design/components/layout
 export const layout: RunTimeLayoutConfig = ({initialState, setInitialState}) => {
   return {
@@ -69,6 +71,10 @@ export const layout: RunTimeLayoutConfig = ({initialState, setInitialState}) => 
     footerRender: () => <Footer/>,
     onPageChange: () => {
       const {location} = history;
+
+      if (whitelist.includes(location.pathname)) {
+        return
+      }
       // 如果没有登录，重定向到 login
       if (!initialState?.currentUser && location.pathname !== loginPath) {
         history.push(loginPath);
