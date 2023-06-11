@@ -23,6 +23,7 @@ declare namespace API {
     phone?: string;
   };
 
+  //TODO 修改类型为我们返回的统一响应类的类型
   type LoginResult = {
     status?: string;
     type?: string;
@@ -62,8 +63,8 @@ declare namespace API {
   };
 
   type LoginParams = {
-    username?: string;
-    password?: string;
+    userAccount?: string;
+    userPassword?: string;
     autoLogin?: boolean;
     type?: string;
   };
