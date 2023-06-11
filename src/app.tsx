@@ -11,7 +11,9 @@ import type {RequestConfig} from "@@/plugin-request/request";
 
 const isDev = process.env.NODE_ENV === 'development';
 const loginPath = '/user/login';
-
+const registerPath = '/user/register';
+// 白名单 不需要登陆的路径
+const WHITE_LIST = [registerPath, loginPath]
 /** 获取用户信息比较慢的时候会展示一个 loading */
 export const initialStateConfig = {
   loading: <PageLoading/>,
@@ -36,14 +38,20 @@ export async function getInitialState(): Promise<{
 }> {
   const fetchUserInfo = async () => {
     try {
-      const msg = await queryCurrentUser();
-      return msg.data;
+      return await queryCurrentUser();
     } catch (error) {
       history.push(loginPath);
     }
     return undefined;
   };
-  // 如果不是登录页面，执行
+  // 如果是登录或者注册页，则不需要获取当前登陆的用户 不执行下面的代码 直接 return {} 空对象作为初始状态
+  if (WHITE_LIST.includes(history.location.pathname)) {
+    return {
+      fetchUserInfo,
+      settings: defaultSettings,
+    }
+  }
+  // 如果不是登录页面，执行 再次检查登录状态
   if (history.location.pathname !== loginPath) {
     const currentUser = await fetchUserInfo();
     return {
@@ -58,21 +66,20 @@ export async function getInitialState(): Promise<{
   };
 }
 
-// 白名单 不需要登陆的路径
-const whitelist = ["/user/register", loginPath]
+
 // ProLayout 支持的api https://procomponents.ant.design/components/layout
 export const layout: RunTimeLayoutConfig = ({initialState, setInitialState}) => {
   return {
     rightContentRender: () => <RightContent/>,
     disableContentMargin: false,
     waterMarkProps: {
-      content: initialState?.currentUser?.name,
+      content: initialState?.currentUser?.username,
     },
     footerRender: () => <Footer/>,
     onPageChange: () => {
       const {location} = history;
 
-      if (whitelist.includes(location.pathname)) {
+      if (WHITE_LIST.includes(location.pathname)) {
         return
       }
       // 如果没有登录，重定向到 login

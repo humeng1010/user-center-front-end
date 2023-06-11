@@ -36,7 +36,7 @@ const Register: React.FC = () => {
       const userId = await register(values);
       if (userId) {
         const defaultRegisterSuccessMessage = '注册成功！3秒后跳转到登录页';
-        message.success(defaultRegisterSuccessMessage, 3000);
+        message.success(defaultRegisterSuccessMessage, 3);
         setTimeout(() => {
           history.push('/user/login');
         }, 3000)
@@ -139,21 +139,17 @@ const Register: React.FC = () => {
             </>
           )}
 
-          <div
+          <Link
             style={{
+              float: 'right',
               marginBottom: 24,
+
             }}
+            to={"/user/login"}
+            rel="noreferrer"
           >
-            <Link
-              style={{
-                float: 'right',
-              }}
-              to={"/user/login"}
-              rel="noreferrer"
-            >
-              已有账户? 去登录
-            </Link>
-          </div>
+            已有账户? 去登录
+          </Link>
 
         </LoginForm>
       </div>

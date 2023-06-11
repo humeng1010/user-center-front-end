@@ -12,7 +12,7 @@ declare namespace API {
     email?: string;
     userStatus?: number;
     userRole?: number;
-    createTime?: string;
+    createTime?: Date;
   };
 
   //TODO 修改类型为我们返回的统一响应类的类型
