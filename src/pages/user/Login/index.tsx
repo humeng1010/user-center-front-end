@@ -20,7 +20,7 @@ const LoginMessage: React.FC<{
   />
 );
 const Login: React.FC = () => {
-  const [userLoginState, setUserLoginState] = useState<API.LoginResult>({});
+  const [userLoginState, setUserLoginState] = useState<API.BaseResponse>({});
   const [type, setType] = useState<string>('account');
   const {initialState, setInitialState} = useModel('@@initialState');
   const fetchUserInfo = async () => {
@@ -39,7 +39,7 @@ const Login: React.FC = () => {
         ...values,
         type,
       });
-      if (user) {
+      if (user.code === 200) {
         const defaultLoginSuccessMessage = '登录成功！';
         message.success(defaultLoginSuccessMessage);
         await fetchUserInfo();
@@ -59,7 +59,7 @@ const Login: React.FC = () => {
       message.error(defaultLoginFailureMessage);
     }
   };
-  const {status, type: loginType} = userLoginState;
+  const {code} = userLoginState;
   return (
     <div className={styles.container}>
       <div className={styles.content}>
@@ -79,7 +79,7 @@ const Login: React.FC = () => {
             <Tabs.TabPane key="account" tab={'账户密码登录'}/>
           </Tabs>
 
-          {status === 'error' && loginType === 'account' && (
+          {code && code !== 200 && (
             <LoginMessage content={'错误的账户和密码'}/>
           )}
           {type === 'account' && (

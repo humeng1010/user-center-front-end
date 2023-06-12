@@ -32,7 +32,15 @@ const columns: ProColumns<API.CurrentUser>[] = [
   {
     title: '性别',
     dataIndex: 'gender',
-
+    valueType: 'select',
+    valueEnum: {
+      1: {
+        text: '男',
+      },
+      0: {
+        text: '女',
+      },
+    }
   },
   {
     title: '电话',
@@ -47,6 +55,17 @@ const columns: ProColumns<API.CurrentUser>[] = [
   {
     title: '状态',
     dataIndex: 'userStatus',
+    valueType: 'select',
+    valueEnum: {
+      0: {
+        text: '正常',
+        status: 'Success',
+      },
+      1: {
+        text: '禁用',
+        status: 'Error',
+      },
+    }
 
   },
   {
@@ -116,7 +135,7 @@ export default () => {
         console.log(sort, filter);
         const userList = await searchUsers(params);
         return {
-          data: userList
+          data: userList.data
         }
       }}
       editable={{

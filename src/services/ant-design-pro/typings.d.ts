@@ -22,6 +22,29 @@ declare namespace API {
     currentAuthority?: string;
   };
 
+  type BaseResponse = {
+    code?: number;
+    data?: object;
+    message?: string;
+  };
+
+  type BaseResponseCurrentUser = {
+    code?: number;
+    data?: CurrentUser;
+    message?: string;
+  };
+  type BaseResponseCurrentUsers = {
+    code?: number;
+    data?: CurrentUser[];
+    message?: string;
+  };
+
+  type BaseResponseRegister = {
+    code?: number;
+    data?: number;
+    message?: string;
+  }
+
   type RegisterResult = number;
 
   type PageParams = {
@@ -100,4 +123,6 @@ declare namespace API {
     description?: string;
     type?: NoticeIconItemType;
   };
+
+
 }

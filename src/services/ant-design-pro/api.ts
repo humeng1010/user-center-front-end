@@ -4,7 +4,7 @@ import {request} from 'umi';
 
 /** 获取当前的用户 GET /api/user/current */
 export async function currentUser(options?: { [key: string]: any }) {
-  return request<API.CurrentUser>('/user/current', {
+  return request<API.BaseResponseCurrentUser>('/user/current', {
     method: 'GET',
     ...(options || {}),
   });
@@ -12,7 +12,7 @@ export async function currentUser(options?: { [key: string]: any }) {
 
 /** 退出登录接口 POST /api/user/out-login */
 export async function outLogin(options?: { [key: string]: any }) {
-  return request<Record<string, any>>('/user/out-login', {
+  return request<API.BaseResponse>('/user/out-login', {
     method: 'POST',
     ...(options || {}),
   });
@@ -20,7 +20,7 @@ export async function outLogin(options?: { [key: string]: any }) {
 
 /** 登录接口 POST /api/login/account */
 export async function login(body: API.LoginParams, options?: { [key: string]: any }) {
-  return request<API.LoginResult>('/user/login', {
+  return request<API.BaseResponseCurrentUser>('/user/login', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -32,7 +32,7 @@ export async function login(body: API.LoginParams, options?: { [key: string]: an
 
 /** 注册接口 POST /api/user/register */
 export async function register(body: API.RegisterParams, options?: { [key: string]: any }) {
-  return request<API.RegisterResult>('/user/register', {
+  return request<API.BaseResponseRegister>('/user/register', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -45,7 +45,7 @@ export async function register(body: API.RegisterParams, options?: { [key: strin
 
 /** 搜索用户 GET /api/user/search */
 export async function searchUsers(params = {}, options?: { [key: string]: any }) {
-  return request<API.CurrentUser[]>('/user/search', {
+  return request<API.BaseResponseCurrentUsers>('/user/search', {
     method: 'GET',
     params,
     ...(options || {}),
