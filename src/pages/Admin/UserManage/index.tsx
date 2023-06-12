@@ -83,14 +83,16 @@ const columns: ProColumns<API.CurrentUser>[] = [
       <a
         key="editable"
         onClick={() => {
+          // @ts-ignore
           action?.startEditable?.(record.id);
         }}
       >
         编辑
       </a>,
-      <a href={record.url} target="_blank" rel="noopener noreferrer" key="view">
-        查看
-      </a>,
+      // TODO 查看界面路由
+      // <a href={record.url} target="_blank" rel="noopener noreferrer" key="view">
+      //   查看
+      // </a>,
       <TableDropdown
         key="actionGroup"
         onSelect={() => action?.reload()}
@@ -105,7 +107,6 @@ const columns: ProColumns<API.CurrentUser>[] = [
 
 export default () => {
   const actionRef = useRef<ActionType>();
-  // @ts-ignore
   return (
     <ProTable<API.CurrentUser>
       columns={columns}
@@ -134,6 +135,7 @@ export default () => {
       }}
       options={{
         setting: {
+          // @ts-ignore
           listsHeight: 400,
         },
       }}
