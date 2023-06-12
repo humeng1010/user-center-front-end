@@ -1,15 +1,21 @@
-import { Button, Result } from 'antd';
+import {Button, Result} from 'antd';
 import React from 'react';
-import { history } from 'umi';
+import {history} from 'umi';
 
 const NoFoundPage: React.FC = () => (
   <Result
     status="404"
     title="404"
-    subTitle="Sorry, the page you visited does not exist."
+    subTitle={
+      <p>
+        Sorry, the page you visited does not exist.
+        <br/>
+        对不起您访问的页面不存在
+      </p>
+    }
     extra={
       <Button type="primary" onClick={() => history.push('/')}>
-        Back Home
+        回到首页
       </Button>
     }
   />

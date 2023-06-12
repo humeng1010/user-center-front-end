@@ -10,9 +10,9 @@ export async function currentUser(options?: { [key: string]: any }) {
   });
 }
 
-/** 退出登录接口 POST /api/login/outLogin */
+/** 退出登录接口 POST /api/user/out-login */
 export async function outLogin(options?: { [key: string]: any }) {
-  return request<Record<string, any>>('/api/login/outLogin', {
+  return request<Record<string, any>>('/user/out-login', {
     method: 'POST',
     ...(options || {}),
   });
@@ -38,6 +38,16 @@ export async function register(body: API.RegisterParams, options?: { [key: strin
       'Content-Type': 'application/json',
     },
     data: body,
+    ...(options || {}),
+  });
+}
+
+
+/** 搜索用户 GET /api/user/search */
+export async function searchUsers(params = {}, options?: { [key: string]: any }) {
+  return request<API.CurrentUser[]>('/user/search', {
+    method: 'GET',
+    params,
     ...(options || {}),
   });
 }
