@@ -22,28 +22,19 @@ declare namespace API {
     currentAuthority?: string;
   };
 
-  type BaseResponse = {
+  type BaseResponse<T> = {
     code?: number;
-    data?: object;
+    data?: T;
     message?: string;
+    description?: string;
   };
 
-  type BaseResponseCurrentUser = {
-    code?: number;
-    data?: CurrentUser;
-    message?: string;
-  };
+
   type BaseResponseCurrentUsers = {
     code?: number;
     data?: CurrentUser[];
     message?: string;
   };
-
-  type BaseResponseRegister = {
-    code?: number;
-    data?: number;
-    message?: string;
-  }
 
   type RegisterResult = number;
 

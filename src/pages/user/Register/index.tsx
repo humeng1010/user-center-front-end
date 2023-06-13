@@ -34,14 +34,14 @@ const Register: React.FC = () => {
     try {
       // 注册
       const userId = await register(values);
-      if (userId) {
+      if (userId.data) {
         const defaultRegisterSuccessMessage = '注册成功！3秒后跳转到登录页';
         message.success(defaultRegisterSuccessMessage, 3);
         setTimeout(() => {
           history.push('/user/login');
         }, 3000)
       } else {
-        throw new Error(`register error id = ${userId}`)
+        throw new Error(`register error id = ${userId.data}`)
       }
     } catch (error) {
       const defaultLoginFailureMessage = '注册失败，请重试！';

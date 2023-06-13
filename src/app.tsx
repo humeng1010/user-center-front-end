@@ -1,10 +1,10 @@
 import Footer from '@/components/Footer';
 import RightContent from '@/components/RightContent';
-import {BookOutlined, LinkOutlined} from '@ant-design/icons';
+import {LinkOutlined} from '@ant-design/icons';
 import type {Settings as LayoutSettings} from '@ant-design/pro-components';
 import {PageLoading, SettingDrawer} from '@ant-design/pro-components';
 import type {RunTimeLayoutConfig} from 'umi';
-import {history, Link} from 'umi';
+import {history} from 'umi';
 import defaultSettings from '../config/defaultSettings';
 import {currentUser as queryCurrentUser} from './services/ant-design-pro/api';
 import type {RequestConfig} from "@@/plugin-request/request";
@@ -32,9 +32,9 @@ export const request: RequestConfig = {
  * */
 export async function getInitialState(): Promise<{
   settings?: Partial<LayoutSettings>;
-  currentUser?: API.BaseResponseCurrentUser;
+  currentUser?: API.CurrentUser;
   loading?: boolean;
-  fetchUserInfo?: () => Promise<API.BaseResponseCurrentUser | undefined>;
+  fetchUserInfo?: () => Promise<API.BaseResponse<API.CurrentUser> | undefined>;
 }> {
   const fetchUserInfo = async () => {
     try {
@@ -44,7 +44,7 @@ export async function getInitialState(): Promise<{
     }
     return undefined;
   };
-  // 如果是登录或者注册页，则不需要获取当前登陆的用户 不执行下面的代码 直接 return {} 空对象作为初始状态
+  // 如果是登录或者注册页，则不需要获取当前登陆的用户
   if (WHITE_LIST.includes(history.location.pathname)) {
     return {
       fetchUserInfo,
@@ -53,12 +53,17 @@ export async function getInitialState(): Promise<{
   }
   // 如果不是登录页面，执行 再次检查登录状态
   if (history.location.pathname !== loginPath) {
-    const currentUser = await fetchUserInfo();
-    return {
-      fetchUserInfo,
-      currentUser,
-      settings: defaultSettings,
-    };
+    try {
+      const {data: currentUser} = await queryCurrentUser()
+      return {
+        fetchUserInfo,
+        currentUser,
+        settings: defaultSettings,
+      };
+    } catch (error) {
+      history.push(loginPath);
+    }
+
   }
   return {
     fetchUserInfo,
@@ -73,7 +78,7 @@ export const layout: RunTimeLayoutConfig = ({initialState, setInitialState}) => 
     rightContentRender: () => <RightContent/>,
     disableContentMargin: false,
     waterMarkProps: {
-      content: initialState?.currentUser?.data?.username,
+      content: initialState?.currentUser?.username,
     },
     footerRender: () => <Footer/>,
     onPageChange: () => {
@@ -89,14 +94,12 @@ export const layout: RunTimeLayoutConfig = ({initialState, setInitialState}) => 
     },
     links: isDev
       ? [
-        <Link key="openapi" to="/umi/plugin/openapi" target="_blank">
+        // eslint-disable-next-line react/jsx-key
+        <a href={"https://github.com/humeng1010/user-center-front-end"} target="_blank" rel="noreferrer">
           <LinkOutlined/>
-          <span>OpenAPI 文档</span>
-        </Link>,
-        <Link to="/~docs" key="docs">
-          <BookOutlined/>
-          <span>业务组件文档</span>
-        </Link>,
+          <span>GitHub仓库</span>
+        </a>,
+
       ]
       : [],
     menuHeaderRender: undefined,
@@ -110,8 +113,7 @@ export const layout: RunTimeLayoutConfig = ({initialState, setInitialState}) => 
           {children}
           {!props.location?.pathname?.includes('/login') && (
             <SettingDrawer
-              disableUrlParams
-              enableDarkTheme
+              enableDarkTheme={true}
               settings={initialState?.settings}
               onSettingChange={(settings) => {
                 setInitialState((preInitialState) => ({

@@ -20,7 +20,7 @@ const LoginMessage: React.FC<{
   />
 );
 const Login: React.FC = () => {
-  const [userLoginState, setUserLoginState] = useState<API.BaseResponse>({});
+  const [userLoginState, setUserLoginState] = useState<API.BaseResponse<API.CurrentUser>>({});
   const [type, setType] = useState<string>('account');
   const {initialState, setInitialState} = useModel('@@initialState');
   const fetchUserInfo = async () => {
@@ -28,7 +28,7 @@ const Login: React.FC = () => {
     if (userInfo) {
       await setInitialState((s) => ({
         ...s,
-        currentUser: userInfo,
+        currentUser: userInfo.data,
       }));
     }
   };
