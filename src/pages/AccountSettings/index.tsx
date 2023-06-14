@@ -1,13 +1,13 @@
-import React, { useState, useRef, useLayoutEffect } from 'react';
-import { GridContent } from '@ant-design/pro-layout';
-import { Menu } from 'antd';
+import React, {useState, useRef, useLayoutEffect} from 'react';
+import {GridContent} from '@ant-design/pro-layout';
+import {Menu} from 'antd';
 import BaseView from './components/base';
 import BindingView from './components/binding';
-import NotificationView from './components/notification';
+// import NotificationView from './components/notification';
 import SecurityView from './components/security';
 import styles from './style.less';
 
-const { Item } = Menu;
+const {Item} = Menu;
 
 type AccountSettingsStateKeys = 'base' | 'security' | 'binding' | 'notification';
 type AccountSettingsState = {
@@ -20,7 +20,7 @@ const AccountSettings: React.FC = () => {
     base: '基本设置',
     security: '安全设置',
     binding: '账号绑定',
-    notification: '新消息通知',
+    // notification: '新消息通知',
   };
 
   const [initConfig, setInitConfig] = useState<AccountSettingsState>({
@@ -35,14 +35,14 @@ const AccountSettings: React.FC = () => {
         return;
       }
       let mode: 'inline' | 'horizontal' = 'inline';
-      const { offsetWidth } = dom.current;
+      const {offsetWidth} = dom.current;
       if (dom.current.offsetWidth < 641 && offsetWidth > 400) {
         mode = 'horizontal';
       }
       if (window.innerWidth < 768 && offsetWidth > 400) {
         mode = 'horizontal';
       }
-      setInitConfig({ ...initConfig, mode: mode as AccountSettingsState['mode'] });
+      setInitConfig({...initConfig, mode: mode as AccountSettingsState['mode']});
     });
   };
 
@@ -61,16 +61,16 @@ const AccountSettings: React.FC = () => {
   };
 
   const renderChildren = () => {
-    const { selectKey } = initConfig;
+    const {selectKey} = initConfig;
     switch (selectKey) {
       case 'base':
-        return <BaseView />;
+        return <BaseView/>;
       case 'security':
-        return <SecurityView />;
+        return <SecurityView/>;
       case 'binding':
-        return <BindingView />;
-      case 'notification':
-        return <NotificationView />;
+        return <BindingView/>;
+      // case 'notification':
+      //   return <NotificationView />;
       default:
         return null;
     }
@@ -90,7 +90,7 @@ const AccountSettings: React.FC = () => {
           <Menu
             mode={initConfig.mode}
             selectedKeys={[initConfig.selectKey]}
-            onClick={({ key }) => {
+            onClick={({key}) => {
               setInitConfig({
                 ...initConfig,
                 selectKey: key as AccountSettingsStateKeys,

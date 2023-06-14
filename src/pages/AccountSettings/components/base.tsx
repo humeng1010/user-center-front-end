@@ -1,45 +1,35 @@
 import React from 'react';
-import {UploadOutlined} from '@ant-design/icons';
-import {Button, message, Upload} from 'antd';
+import {message} from 'antd';
 import ProForm, {ProFormSelect, ProFormText,} from '@ant-design/pro-form';
 
 import styles from './BaseView.less';
 import {useModel} from "@@/plugin-model/useModel";
+import UploadAvatar from "@/pages/AccountSettings/components/UploadAvatar";
 
 
 // 头像组件 方便以后独立，增加裁剪之类的功能
-const AvatarView = ({avatar}: { avatar: string }) => (
-  <>
-    <div className={styles.avatar_title}>头像</div>
-    <div className={styles.avatar}>
-      <img src={avatar} alt="avatar"/>
-    </div>
-    {/*TODO 头像上传*/}
-    <Upload showUploadList={false}>
-      <div className={styles.button_view}>
-        <Button>
-          <UploadOutlined/>
-          更换头像
-        </Button>
-      </div>
-    </Upload>
-  </>
-);
+// const AvatarView = ({avatar}: { avatar: string }) => (
+//   <>
+//     <div className={styles.avatar_title}>头像</div>
+//     <div className={styles.avatar}>
+//       <img src={avatar} alt="avatar"/>
+//     </div>
+//     {/*TODO 头像上传*/}
+//     <Upload showUploadList={false}>
+//       <div className={styles.button_view}>
+//         <Button>
+//           <UploadOutlined/>
+//           更换头像
+//         </Button>
+//       </div>
+//     </Upload>
+//   </>
+// );
 
 const BaseView: React.FC = () => {
   //  获取用户信息
   const {initialState, loading} = useModel('@@initialState');
   const {currentUser} = initialState || {}
-
-  const getAvatarURL = () => {
-    if (currentUser) {
-      if (currentUser.avatarUrl) {
-        return currentUser.avatarUrl;
-      }
-      return 'https://img.alicdn.com/bao/uploaded/i1/232692832/O1CN01XERLVq1Wn6Sq5ufB4_!!232692832.jpg_400x400q90';
-    }
-    return '';
-  };
 
   // 提交方法
   const handleFinish = async (values: API.CurrentUser) => {
@@ -68,7 +58,6 @@ const BaseView: React.FC = () => {
               initialValues={{
                 ...currentUser,
                 gender: currentUser.gender === 1 ? '男' : '女'
-                // phone: currentUser?.phone?.split('-'),
               }}
             >
 
@@ -130,7 +119,7 @@ const BaseView: React.FC = () => {
             </ProForm>
           </div>
           <div className={styles.right}>
-            <AvatarView avatar={getAvatarURL()}/>
+            <UploadAvatar/>
           </div>
         </>
       )}
