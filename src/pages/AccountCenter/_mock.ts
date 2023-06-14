@@ -1,6 +1,6 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
-import type { Request, Response } from 'express';
-import type { ListItemDataType } from './data.d';
+import type {Request, Response} from 'express';
+import type {ListItemDataType} from './data.d';
 
 const titles = [
   'Alipay',
@@ -237,7 +237,7 @@ function getCurrentUser(req: Request, res: Response) {
 }
 
 export default {
-  'GET  /api/fake_list_Detail': getFakeList,
+  'GET  /lo/fake_list_Detail': getFakeList,
   // 支持值为 Object 和 Array
-  'GET  /api/currentUserDetail': getCurrentUser,
+  'GET  /currentUserDetail': getCurrentUser,
 };

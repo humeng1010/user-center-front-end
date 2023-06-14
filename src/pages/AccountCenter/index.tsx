@@ -1,25 +1,30 @@
-import {ContactsOutlined, PhoneOutlined, UserOutlined} from '@ant-design/icons';
+import {
+  ClockCircleOutlined,
+  ContactsOutlined,
+  MailOutlined,
+  PhoneOutlined,
+  TeamOutlined,
+  UserOutlined
+} from '@ant-design/icons';
 import {Card, Col, Divider, Row} from 'antd';
 import React, {useState} from 'react';
 import {GridContent} from '@ant-design/pro-layout';
-import {useRequest} from 'umi';
 import type {RouteChildrenProps} from 'react-router';
 
 import Projects from './components/Projects';
 import Articles from './components/Articles';
 import Applications from './components/Applications';
 
-import {currentUser as queryCurrent} from '@/services/ant-design-pro/api'
-
 import styles from './Center.less';
 import type {tabKeyType} from "@/pages/AccountCenter/data";
+import {useModel} from "@@/plugin-model/useModel";
 
 const operationTabList = [
   {
     key: 'articles',
     tab: (
       <span>
-        文章 <span style={{fontSize: 14}}>(?)</span>
+        文章 <span style={{fontSize: 14}}>(4)</span>
       </span>
     ),
   },
@@ -27,7 +32,7 @@ const operationTabList = [
     key: 'applications',
     tab: (
       <span>
-        应用 <span style={{fontSize: 14}}>(?)</span>
+        应用 <span style={{fontSize: 14}}>(0)</span>
       </span>
     ),
   },
@@ -35,12 +40,13 @@ const operationTabList = [
     key: 'projects',
     tab: (
       <span>
-        项目 <span style={{fontSize: 14}}>(?)</span>
+        项目 <span style={{fontSize: 14}}>(0)</span>
       </span>
     ),
   },
 ];
 
+//region Description
 // const TagList: React.FC<{ tags: API.CurrentUser['tags'] }> = ({tags}) => {
 //   const ref = useRef<Input | null>(null);
 //   const [newTags, setNewTags] = useState<TagType[]>([]);
@@ -95,17 +101,26 @@ const operationTabList = [
 //     </div>
 //   );
 // };
+//endregion
+
 
 const AccountCenter: React.FC<RouteChildrenProps> = () => {
   const [tabKey, setTabKey] = useState<tabKeyType>('articles');
 
-  //  获取用户信息
-  const {data: currentUser, loading} = useRequest(() => {
-    return queryCurrent();
-  });
+
+  const {initialState, loading} = useModel("@@initialState")
+  const currentUser = initialState?.currentUser
 
   //  渲染用户信息
-  const renderUserInfo = ({username, gender, phone}: Partial<API.CurrentUser>) => {
+  const renderUserInfo = ({
+                            username,
+                            userAccount,
+                            gender,
+                            phone,
+                            email,
+                            userRole,
+                            createTime
+                          }: Partial<API.CurrentUser>) => {
     return (
       <div className={styles.detail}>
         <p>
@@ -114,7 +129,15 @@ const AccountCenter: React.FC<RouteChildrenProps> = () => {
               marginRight: 8,
             }}
           />
-          {username}
+          昵称：{username}
+        </p>
+        <p>
+          <ContactsOutlined
+            style={{
+              marginRight: 8,
+            }}
+          />
+          账户：{userAccount}
         </p>
         <p>
           <UserOutlined
@@ -122,7 +145,7 @@ const AccountCenter: React.FC<RouteChildrenProps> = () => {
               marginRight: 8,
             }}
           />
-          {gender === 1 ? '男' : '女'}
+          性别：{gender === 1 ? '男' : '女'}
         </p>
         <p>
           <PhoneOutlined
@@ -130,8 +153,33 @@ const AccountCenter: React.FC<RouteChildrenProps> = () => {
               marginRight: 8,
             }}
           />
-          {phone}
+          手机号：{phone}
         </p>
+        <p>
+          <MailOutlined
+            style={{
+              marginRight: 8,
+            }}
+          />
+          邮箱：{email}
+        </p>
+        <p>
+          <TeamOutlined
+            style={{
+              marginRight: 8,
+            }}
+          />
+          用户角色：{userRole === 1 ? '管理员' : '普通用户'}
+        </p>
+        <p>
+          <ClockCircleOutlined
+            style={{
+              marginRight: 8,
+            }}
+          />
+          账户注册时间：{createTime}
+        </p>
+
       </div>
     );
   };
@@ -165,23 +213,23 @@ const AccountCenter: React.FC<RouteChildrenProps> = () => {
                 {renderUserInfo(currentUser)}
                 <Divider dashed/>
                 {/*<TagList tags={currentUser.tags || []}/>*/}
-                <Divider style={{marginTop: 16}} dashed/>
-                <div className={styles.team}>
-                  <div className={styles.teamTitle}>团队</div>
-                  {/*<Row gutter={36}>*/}
-                  {/*  /!*notice是团队 类型 对象数组*!/*/}
-                  {/*  {currentUser.notice &&*/}
-                  {/*    currentUser.notice.map((item) => (*/}
-                  {/*      <Col key={item.id} lg={24} xl={12}>*/}
-                  {/*        <Link to={item.href}>*/}
-                  {/*          <Avatar size="small" src={item.logo}/>*/}
-                  {/*          /!*成员*!/*/}
-                  {/*          {item.member}*/}
-                  {/*        </Link>*/}
-                  {/*      </Col>*/}
-                  {/*    ))}*/}
-                  {/*</Row>*/}
-                </div>
+                {/*<Divider style={{marginTop: 16}} dashed/>*/}
+                {/*<div className={styles.team}>*/}
+                {/*  <div className={styles.teamTitle}>团队</div>*/}
+                {/*  <Row gutter={36}>*/}
+                {/*    /!*notice是团队 类型 对象数组*!/*/}
+                {/*    {currentUser.notice &&*/}
+                {/*      currentUser.notice.map((item) => (*/}
+                {/*        <Col key={item.id} lg={24} xl={12}>*/}
+                {/*          <Link to={item.href}>*/}
+                {/*            <Avatar size="small" src={item.logo}/>*/}
+                {/*            /!*成员*!/*/}
+                {/*            {item.member}*/}
+                {/*          </Link>*/}
+                {/*        </Col>*/}
+                {/*      ))}*/}
+                {/*  </Row>*/}
+                {/*</div>*/}
               </div>
             )}
           </Card>

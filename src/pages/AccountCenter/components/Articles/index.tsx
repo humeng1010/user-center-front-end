@@ -16,7 +16,7 @@ const Articles: React.FC = () => {
   );
 
   // 获取tab列表数据
-  // const { data: listData } = useRequest(() => {
+  // const {data: listData} = useRequest(() => {
   //   return queryFakeList({
   //     count: 30,
   //   });
@@ -28,6 +28,91 @@ const Articles: React.FC = () => {
       rowKey="id"
       itemLayout="vertical"
       // dataSource={listData?.list || []}
+      dataSource={[{
+        id: "1",
+        star: 100,
+        owner: "root",
+        title: "测试内容:由于该项目是单纯的用户中心模块，不涉及到其他内容，目的就是只需要开发一次就可以多次使用。该处可自己根据实际业务进行扩展用户相关的业务功能",
+        avatar: "http://wuluwulu.cn/upload/2023/04/IMG_9228.JPG",
+        cover: "",
+        content: "",
+        status: "success",
+        percent: 10,
+        logo: "",
+        href: "#",
+        updatedAt: Date.now(),
+        createdAt: Date.now(),
+        subDescription: "由于该项目是单纯的用户中心模块，不涉及到其他内容，目的就是只需要开发一次就可以多次使用。该处可自己根据实际业务进行扩展用户相关的业务功能",
+        description: "测试数据",
+        activeUser: 10,
+        newUser: 5,
+        like: 100,
+        message: 10,
+        members: []
+      }, {
+        id: "1",
+        star: 100,
+        owner: "root",
+        title: "测试内容:由于该项目是单纯的用户中心模块，不涉及到其他内容，目的就是只需要开发一次就可以多次使用。该处可自己根据实际业务进行扩展用户相关的业务功能",
+        avatar: "http://wuluwulu.cn/upload/2023/04/IMG_9228.JPG",
+        cover: "",
+        content: "",
+        status: "success",
+        percent: 10,
+        logo: "",
+        href: "#",
+        updatedAt: Date.now(),
+        createdAt: Date.now(),
+        subDescription: "由于该项目是单纯的用户中心模块，不涉及到其他内容，目的就是只需要开发一次就可以多次使用。该处可自己根据实际业务进行扩展用户相关的业务功能",
+        description: "测试数据",
+        activeUser: 10,
+        newUser: 5,
+        like: 100,
+        message: 10,
+        members: []
+      }, {
+        id: "1",
+        star: 100,
+        owner: "root",
+        title: "测试内容:由于该项目是单纯的用户中心模块，不涉及到其他内容，目的就是只需要开发一次就可以多次使用。该处可自己根据实际业务进行扩展用户相关的业务功能",
+        avatar: "http://wuluwulu.cn/upload/2023/04/IMG_9228.JPG",
+        cover: "",
+        content: "",
+        status: "success",
+        percent: 10,
+        logo: "",
+        href: "#",
+        updatedAt: Date.now(),
+        createdAt: Date.now(),
+        subDescription: "由于该项目是单纯的用户中心模块，不涉及到其他内容，目的就是只需要开发一次就可以多次使用。该处可自己根据实际业务进行扩展用户相关的业务功能",
+        description: "测试数据",
+        activeUser: 10,
+        newUser: 5,
+        like: 100,
+        message: 10,
+        members: []
+      }, {
+        id: "1",
+        star: 100,
+        owner: "root",
+        title: "测试内容:由于该项目是单纯的用户中心模块，不涉及到其他内容，目的就是只需要开发一次就可以多次使用。该处可自己根据实际业务进行扩展用户相关的业务功能",
+        avatar: "http://wuluwulu.cn/upload/2023/04/IMG_9228.JPG",
+        cover: "",
+        content: "",
+        status: "success",
+        percent: 10,
+        logo: "",
+        href: "#",
+        updatedAt: Date.now(),
+        createdAt: Date.now(),
+        subDescription: "由于该项目是单纯的用户中心模块，不涉及到其他内容，目的就是只需要开发一次就可以多次使用。该处可自己根据实际业务进行扩展用户相关的业务功能",
+        description: "测试数据",
+        activeUser: 10,
+        newUser: 5,
+        like: 100,
+        message: 10,
+        members: []
+      },]}
       renderItem={(item) => (
         <List.Item
           key={item.id}
@@ -45,9 +130,9 @@ const Articles: React.FC = () => {
             }
             description={
               <span>
-                <Tag>Ant Design</Tag>
-                <Tag>设计语言</Tag>
-                <Tag>蚂蚁金服</Tag>
+                <Tag>提示</Tag>
+                <Tag>关于</Tag>
+                <Tag>业务</Tag>
               </span>
             }
           />

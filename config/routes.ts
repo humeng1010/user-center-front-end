@@ -21,7 +21,7 @@ export default [
   {
     path: '/welcome',
     name: '欢迎',
-    icon: 'smile',
+    icon: 'HomeOutlined',
     component: './Welcome',
   },
   {
@@ -34,8 +34,27 @@ export default [
       {
         path: '/admin/user-manage',
         name: '用户管理',
-        icon: 'smile',
         component: './Admin/UserManage',
+      },
+      {
+        component: './404',
+      },
+    ],
+  },
+  {
+    path: '/account',
+    name: '个人中心设置',
+    icon: 'user',
+    routes: [
+      {
+        name: '个人中心',
+        path: '/account/accountcenter',
+        component: './AccountCenter',
+      },
+      {
+        name: '个人设置',
+        path: '/account/accountsettings',
+        component: './AccountSettings',
       },
       {
         component: './404',
@@ -45,18 +64,6 @@ export default [
   {
     path: '/',
     redirect: '/welcome',
-  },
-  {
-    name: '个人中心',
-    icon: 'smile',
-    path: '/accountcenter',
-    component: './AccountCenter',
-  },
-  {
-    name: '个人设置',
-    icon: 'smile',
-    path: '/accountsettings',
-    component: './AccountSettings',
   },
   {
     component: './404',
