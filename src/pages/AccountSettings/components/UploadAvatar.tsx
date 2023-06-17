@@ -25,13 +25,19 @@ const beforeUpload = (file: RcFile) => {
 
 const UploadAvatar: React.FC = () => {
   //  获取用户信息
-  const {initialState} = useModel('@@initialState');
+  const {initialState, refresh} = useModel('@@initialState');
   const {currentUser} = initialState || {}
   // 获取用户头像URL
   const getAvatarURL = () => {
     if (currentUser) {
-      if (currentUser.avatarUrl) {
-        return currentUser.avatarUrl;
+      const avatarUrl = currentUser.avatarUrl;
+      if (avatarUrl) {
+        return avatarUrl
+        // const temp = avatarUrl.lastIndexOf("/")
+        // //    455508d4-571f-45fe-a1a9-38d4a07f0377.jpg
+        // const filename = avatarUrl.slice(temp + 1)
+        //
+        // return `/api/common/download?name=${filename}`;
       }
       return 'https://img.alicdn.com/bao/uploaded/i1/232692832/O1CN01XERLVq1Wn6Sq5ufB4_!!232692832.jpg_400x400q90';
     }
@@ -54,6 +60,8 @@ const UploadAvatar: React.FC = () => {
         setLoading(false);
         setImageUrl(url);
       });
+      //刷新缓存
+      refresh()
     }
   };
 
@@ -71,7 +79,7 @@ const UploadAvatar: React.FC = () => {
         listType="picture-card"
         className="avatar-uploader"
         showUploadList={false}
-        action="http://localhost:8080/api/upload"
+        action="http://localhost:8000/api/common/upload"
         beforeUpload={beforeUpload}
         onChange={handleChange}
       >

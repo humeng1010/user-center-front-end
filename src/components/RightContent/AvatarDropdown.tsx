@@ -98,6 +98,23 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({menu}) => {
     <Menu className={styles.menu} selectedKeys={[]} onClick={onMenuClick} items={menuItems}/>
   );
 
+  // 优化完成从app.tsx根部获取用户数据的时候就处理了头像路径
+  // const handleAvatarUrl = () => {
+  //   const {avatarUrl} = currentUser
+  //   // 如果是互联网上的图片直接获取不做处理
+  //   if (avatarUrl?.startsWith('http://') || avatarUrl?.startsWith('https://'))
+  //     return currentUser
+  //
+  //   // 否则调用后端接口获取服务器上的图片
+  //   // 首先处理路径获取文件名
+  //   const temp = avatarUrl?.lastIndexOf("/")
+  //   // @ts-ignore
+  //   const filename = avatarUrl?.slice(temp + 1)
+  //
+  //   return `http://localhost:8000/api/common/download?name=${filename}`
+  //
+  // }
+
   return (
     <HeaderDropdown overlay={menuHeaderDropdown}>
       <span className={`${styles.action} ${styles.account}`}>

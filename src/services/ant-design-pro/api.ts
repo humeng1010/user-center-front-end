@@ -52,3 +52,13 @@ export async function searchUsers(params = {}, options?: { [key: string]: any })
   });
 }
 
+/** 获取服务器本地的用户头像 GET /api/common/download */
+export async function getLocalServerUserAvatar(params = {}, options?: { [key: string]: any }) {
+  return request<API.BaseResponse<API.CurrentUser[]>>('/common/download', {
+    method: 'GET',
+    params,
+    ...(options || {}),
+  });
+}
+
+
