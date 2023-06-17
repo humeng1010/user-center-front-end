@@ -28,7 +28,7 @@ const columns: ProColumns<API.CurrentUser>[] = [
       let avatar = record.avatarUrl
       // 如果头像路径不是http:// 或者https:// 开头的，则需要处理
       if (!(avatar?.startsWith('http://') || avatar?.startsWith('https://'))) {
-        avatar = avatar?.slice(avatar?.lastIndexOf('/') + 1)
+        // avatar = avatar?.slice(avatar?.lastIndexOf('/') + 1)
         avatar = `/api/common/download?name=${avatar}`
       }
       return <Image src={avatar} width={80} style={{borderRadius: "50%"}}/>

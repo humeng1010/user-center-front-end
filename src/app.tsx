@@ -57,14 +57,14 @@ export async function getInitialState(): Promise<{
       const {data: currentUser} = await queryCurrentUser()
 
       const avatarUrl = currentUser?.avatarUrl
-      // 如果不是是互联网上的图片需要处理
+      // 如果不是是互联网上的图片需要处理读取数据库获取
       if (!(avatarUrl?.startsWith('http://') || avatarUrl?.startsWith('https://'))) {
         // 否则调用后端接口获取服务器上的图片
         // 首先处理路径获取文件名
-        const temp = avatarUrl?.lastIndexOf("/")
+        // const temp = avatarUrl?.lastIndexOf("/")
         // @ts-ignore
-        const filename = avatarUrl?.slice(temp + 1)
-        const afterHandlerUser = {...currentUser, avatarUrl: `/api/common/download?name=${filename}`}
+        // const filename = avatarUrl?.slice(temp + 1)
+        const afterHandlerUser = {...currentUser, avatarUrl: `/api/common/download?name=${avatarUrl}`}
 
         return {
           fetchUserInfo,
@@ -72,7 +72,7 @@ export async function getInitialState(): Promise<{
           settings: defaultSettings,
         }
       }
-      
+
       return {
         fetchUserInfo,
         currentUser,
