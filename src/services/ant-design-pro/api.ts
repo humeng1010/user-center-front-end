@@ -61,4 +61,13 @@ export async function getLocalServerUserAvatar(params = {}, options?: { [key: st
   });
 }
 
+/** 根据ID更新用户信息 PUT /api/user/update */
+export async function updateUserInfoById(data = {}, options?: { [key: string]: any }) {
+  return request<API.BaseResponse<API.CurrentUser[]>>('/user/update', {
+    method: 'PUT',
+    data,
+    ...(options || {}),
+  });
+}
+
 

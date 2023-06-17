@@ -5,6 +5,7 @@ import ProForm, {ProFormSelect, ProFormText,} from '@ant-design/pro-form';
 import styles from './BaseView.less';
 import {useModel} from "@@/plugin-model/useModel";
 import UploadAvatar from "@/pages/AccountSettings/components/UploadAvatar";
+import {updateUserInfoById} from "@/services/ant-design-pro/api";
 
 
 // 头像组件 方便以后独立，增加裁剪之类的功能
@@ -14,7 +15,6 @@ import UploadAvatar from "@/pages/AccountSettings/components/UploadAvatar";
 //     <div className={styles.avatar}>
 //       <img src={avatar} alt="avatar"/>
 //     </div>
-//     {/*TODO 头像上传*/}
 //     <Upload showUploadList={false}>
 //       <div className={styles.button_view}>
 //         <Button>
@@ -28,14 +28,31 @@ import UploadAvatar from "@/pages/AccountSettings/components/UploadAvatar";
 
 const BaseView: React.FC = () => {
   //  获取用户信息
-  const {initialState, loading} = useModel('@@initialState');
+  const {initialState, loading, refresh} = useModel('@@initialState');
   const {currentUser} = initialState || {}
 
   // 提交方法
   const handleFinish = async (values: API.CurrentUser) => {
-    console.log(values)
-    // TODO 请求后端修改信息
-    message.success('更新基本信息成功');
+    // @ts-ignore
+    let gender = values.gender
+    if (values.gender === 1) {
+      // @ts-ignore
+      gender = '男'
+    }
+    if (values.gender === 0) {
+      // @ts-ignore
+      gender = '女'
+    }
+
+    const user = {...values, id: currentUser?.id, gender}
+
+    const res = await updateUserInfoById(user)
+    if (res.code === 200) {
+      message.success('更新基本信息成功');
+      refresh()
+      return
+    }
+    message.error('更新失败');
   };
   return (
     <div className={styles.baseView}>
