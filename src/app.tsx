@@ -54,7 +54,11 @@ export async function getInitialState(): Promise<{
   // 如果不是登录页面，执行 再次检查登录状态
   if (history.location.pathname !== loginPath) {
     try {
-      const {data: currentUser} = await queryCurrentUser()
+      const {data: currentUser, code} = await queryCurrentUser()
+      if (code === 40100) {
+        // 未登录的状态码
+        history.push(loginPath);
+      }
 
       const avatarUrl = currentUser?.avatarUrl
       // 如果不是是互联网上的图片需要处理读取数据库获取
