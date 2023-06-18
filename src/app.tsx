@@ -25,7 +25,7 @@ export const initialStateConfig = {
 export const request: RequestConfig = {
   timeout: 5000,
   // prefix: "/api"
-  prefix: process.env.NODE_ENV === 'production' ? 'http://wuluwulu.cn:8081/api' : '/api'
+  prefix: process.env.NODE_ENV === 'production' ? 'http://localhost:8081/api' : '/api'
 }
 
 /**
