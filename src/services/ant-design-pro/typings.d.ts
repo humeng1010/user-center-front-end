@@ -15,7 +15,6 @@ declare namespace API {
     createTime?: Date;
   };
 
-  //TODO 修改类型为我们返回的统一响应类的类型
   type LoginResult = {
     status?: string;
     type?: string;
@@ -29,19 +28,6 @@ declare namespace API {
     description?: string;
   };
 
-
-  type BaseResponseCurrentUsers = {
-    code?: number;
-    data?: CurrentUser[];
-    message?: string;
-  };
-
-  type RegisterResult = number;
-
-  type PageParams = {
-    current?: number;
-    pageSize?: number;
-  };
 
   type RuleListItem = {
     key?: number;

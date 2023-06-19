@@ -1,8 +1,13 @@
 import type {ActionType, ProColumns} from '@ant-design/pro-components';
-import {ProTable, TableDropdown} from '@ant-design/pro-components';
+import {ProTable} from '@ant-design/pro-components';
 import {useRef} from 'react';
-import {Image} from 'antd';
-import {searchUsers} from "@/services/ant-design-pro/api";
+import {Button, Image, message} from 'antd';
+import {
+  changeUserStatusById,
+  deleteUserInfoById, enableAdminRole,
+  enableUserStatusById,
+  searchUsers
+} from "@/services/ant-design-pro/api";
 
 
 const columns: ProColumns<API.CurrentUser>[] = [
@@ -95,7 +100,6 @@ const columns: ProColumns<API.CurrentUser>[] = [
     dataIndex: 'createTime',
     key: 'showTime',
     valueType: 'dateTime',
-    sorter: true,
     hideInSearch: true,
   },
 
@@ -103,34 +107,86 @@ const columns: ProColumns<API.CurrentUser>[] = [
     title: '操作',
     valueType: 'option',
     key: 'option',
-    render: (text, record, _, action) => [
-      <a
-        key="editable"
-        onClick={() => {
-          // @ts-ignore
-          action?.startEditable?.(record.id);
-        }}
-      >
-        编辑
-      </a>,
-      // TODO 查看界面路由
-      // <a href={record.url} target="_blank" rel="noopener noreferrer" key="view">
-      //   查看
-      // </a>,
-      <TableDropdown
-        key="actionGroup"
-        onSelect={() => action?.reload()}
-        menus={[
-          {key: 'copy', name: '复制'},
-          {key: 'delete', name: '删除'},
-        ]}
-      />,
-    ],
+    render: (text, record, _, action) => {
+
+      return [
+        <Button type={'primary'} danger={true} size={'small'} disabled={record.userRole === 1}
+                key="delete"
+                onClick={async () => {
+                  if (confirm("确认要删除吗？")) {
+                    const res = await deleteUserInfoById(record.id as number)
+                    if (res.code === 200) {
+                      message.success(res.message, 2);
+                      action?.reload(true)
+                    } else {
+                      message.error(res.message, 2)
+                    }
+                  }
+
+                }}
+        >
+          删除
+        </Button>,
+        <Button type={'primary'} danger={true} size={'small'} disabled={record.userRole === 1}
+                key="status"
+                onClick={async () => {
+                  if (confirm("确认要禁用该用户吗？")) {
+                    const res = await changeUserStatusById(record.id as number)
+                    if (res.code === 200) {
+                      message.success(res.message, 2);
+                      action?.reload()
+                    } else {
+                      message.error(res.message, 2)
+                    }
+                  }
+
+                }}
+        >
+          禁用
+        </Button>,
+        <Button type={'primary'} size={'small'} disabled={record.userRole === 1}
+                key="status"
+                onClick={async () => {
+                  if (confirm("确认要启用该用户吗？")) {
+                    const res = await enableUserStatusById(record.id as number)
+                    if (res.code === 200) {
+                      message.success(res.message, 2);
+                      action?.reload()
+                    } else {
+                      message.error(res.message, 2)
+                    }
+                  }
+
+                }}
+        >
+          启用
+        </Button>,
+        <Button type={'primary'} size={'small'} disabled={record.userRole === 1}
+                key="admin"
+                onClick={async () => {
+                  if (confirm("确认要给该用户授权管理员吗？")) {
+                    const res = await enableAdminRole(record.id as number)
+                    if (res.code === 200) {
+                      message.success(res.message, 2);
+                      action?.reload()
+                    } else {
+                      message.error(res.message, 2)
+                    }
+                  }
+
+                }}
+        >
+          授权管理员
+        </Button>,
+
+      ]
+    },
   },
 ];
 
 export default () => {
   const actionRef = useRef<ActionType>();
+
   return (
     <ProTable<API.CurrentUser>
       columns={columns}
@@ -140,7 +196,9 @@ export default () => {
         console.log(sort, filter);
         const userList = await searchUsers(params);
         return {
-          data: userList.data
+          data: userList.data.records,
+          total: userList.data.total,
+          success: userList.code === 200
         }
       }}
       editable={{

@@ -45,7 +45,7 @@ export async function register(body: API.RegisterParams, options?: { [key: strin
 
 /** 搜索用户 GET /api/user/search */
 export async function searchUsers(params = {}, options?: { [key: string]: any }) {
-  return request<API.BaseResponse<API.CurrentUser[]>>('/user/search', {
+  return request<API.BaseResponse<any>>('/user/search', {
     method: 'GET',
     params,
     ...(options || {}),
@@ -70,4 +70,35 @@ export async function updateUserInfoById(data = {}, options?: { [key: string]: a
   });
 }
 
+/** 根据ID删除用户信息 DELETE /api/user/{id} */
+export async function deleteUserInfoById(id: number, options?: { [key: string]: any }) {
+  return request<API.BaseResponse<API.CurrentUser[]>>(`/user/${id}`, {
+    method: 'DELETE',
+    ...(options || {}),
+  });
+}
 
+/** 根据ID禁用用户 PUT /api/user/{id} */
+export async function changeUserStatusById(id: number, options?: { [key: string]: any }) {
+  return request<API.BaseResponse<API.CurrentUser[]>>(`/user/${id}`, {
+    method: 'PUT',
+    ...(options || {}),
+  });
+}
+
+
+/** enableUserStatusById PUT /api/user/enable/{id} */
+export async function enableUserStatusById(id: number, options?: { [key: string]: any }) {
+  return request<API.BaseResponse<API.CurrentUser[]>>(`/user/enable/${id}`, {
+    method: 'PUT',
+    ...(options || {}),
+  });
+}
+
+/**  PUT /api/user/enable-admin/{id} */
+export async function enableAdminRole(id: number, options?: { [key: string]: any }) {
+  return request<API.BaseResponse<API.CurrentUser[]>>(`/user/enable-admin/${id}`, {
+    method: 'PUT',
+    ...(options || {}),
+  });
+}
