@@ -79,7 +79,8 @@ const UploadAvatar: React.FC = () => {
         listType="picture-card"
         className="avatar-uploader"
         showUploadList={false}
-        action="http://localhost:8000/api/common/upload"
+        // action="http://localhost:8000/api/common/upload"
+        action={process.env.NODE_ENV === 'production' ? '/api/common/upload' : 'http://localhost:8000/api/common/upload'}
         beforeUpload={beforeUpload}
         onChange={handleChange}
       >
